@@ -5,7 +5,6 @@
  */
 package com.fakegenerator.entities;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +18,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 /**
  *
  * @author jbust
@@ -27,32 +25,24 @@ import javax.persistence.Table;
 //@MappedSuperclass
 @Entity
 @Table(name = "personas")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
-    
+
     @Id
     //@GeneratedValue(strategy=GenerationType.IDENTITY) para autoincrementables
     protected String dni;
-    
-    
-    
+
     //	@Column(name="TIPO_TRAM") <- si los campos aquí no tienen el mismo nombre que las columnas en la tabla
     protected String nombres;
     protected String ape_pat;
     protected String ape_mat;
-    
-    @OneToOne(fetch=FetchType.EAGER)
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username")
     private Usuario usuario;
-    
-  
-
 
     public Persona() {
     }
-
-    
-    
 
     public Persona(String dni, String nombres, String ape_pat, String ape_mat) {
         this.dni = dni;
@@ -105,10 +95,5 @@ public class Persona {
     public String toString() {
         return "Persona{" + "dni=" + dni + ", nombres=" + nombres + ", ape_pat=" + ape_pat + ", ape_mat=" + ape_mat + ", usuario=" + usuario + '}';
     }
-
-    
-    
-
-    
 
 }

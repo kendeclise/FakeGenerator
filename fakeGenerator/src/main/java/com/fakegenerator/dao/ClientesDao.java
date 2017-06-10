@@ -8,15 +8,20 @@ package com.fakegenerator.dao;
 import com.fakegenerator.entities.ApellidoOrigen;
 import com.fakegenerator.entities.Cliente;
 import com.fakegenerator.entities.DireccionOrigen;
+import com.fakegenerator.entities.Distrito;
 import com.fakegenerator.entities.NombreHombreOrigen;
 import com.fakegenerator.entities.NombreMujerOrigen;
 import com.fakegenerator.entities.Persona;
 import com.fakegenerator.entities.TelefonoOrigen;
 import com.fakegenerator.entities.Usuario;
 import com.fakegenerator.util.conexionSQL2014;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,28 +43,31 @@ public class ClientesDao {
 
     public void cargarClientesFicticios(int numClientes) {
         Random random = new Random();
+
         //Variables
-        String dni="";
+        String dni = "";
         String nombres = "";
         String apellido_paterno = "";
         String apellido_materno = "";
+        String direccion = "";
+        String telefono = "";
+        String email = "";
         List<String> personasNomCompleto = new ArrayList<>();
         List<String> listaDnis = new ArrayList<>();
 
         for (int i = 0; i < numClientes; i++) {
-            
+
             //Dni al azar
-            while(true){
+            while (true) {
                 dni = generarDniAleatorio(listaDnis);
-                if(existeEnListaString(dni, listaDnis)){
+                if (existeEnListaString(dni, listaDnis)) {
                     listaDnis.add(dni);
                     break;
                 }
             }
-            
-            
-            //Si será un hombre(0) o una mujer(1)
-            if (random.nextInt(2) == 0) {//Hombre
+
+            //Si será un hombre(0) o una mujer(1) 
+            if (random.nextInt(2) == 0) {//Hombre -> 50% de posibilidades de que el cliente sea hombre
                 while (true) {
                     nombres = generarPersonaHombre(listaNombresHombreOrigen());
                     apellido_paterno = generarApellidosPersona(listaApellidosOrigen())[0];
@@ -72,7 +80,7 @@ public class ClientesDao {
 
                 }
 
-            } else {//Mujer
+            } else {//Mujer -> 50% de posibilidades de que el cliente sea mujer
                 while (true) {
                     nombres = generarPersonaMujer(listaNombresMujerOrigen());
                     apellido_paterno = generarApellidosPersona(listaApellidosOrigen())[0];
@@ -85,41 +93,99 @@ public class ClientesDao {
 
                 }
             }
-            
+
             //Generando la entidad persona
             Persona persona = new Persona();
             persona.setDni(dni);
             persona.setNombres(nombres);
             persona.setApe_pat(apellido_paterno);
             persona.setApe_mat(apellido_materno);
-            
-            //Si son usuarios registrados (0 1 y 2) o no(3) ->75% de posibilidades que un usuario que compre se registre
-            if (random.nextInt(4) != 3){
-                //Generando su usuario, la contraseña es cliente (https://www.dailycred.com/article/bcrypt-calculator) encriptada en Bcrypt
-                String pass = "$2a$04$Pe1dAbO/qdJwNN3SWaGjue1SSkOK5pBLldJqRFZ7OZeJEfbCBbIhu";
-                
-                Usuario usuario = new Usuario(dni, pass, true);
-                //registrando al usuario en la bd
-                registrarUsuario(usuario);
-                //Asignando la cuenta a la persona respectiva
-                persona.setUsuario(obtenerUnUsuarioPorUsername(usuario.getUsername()));
-            }
-            
+
+            //Generando su usuario, la contraseña es cliente (https://www.dailycred.com/article/bcrypt-calculator) encriptada en Bcrypt
+            String pass = "$2a$04$Pe1dAbO/qdJwNN3SWaGjue1SSkOK5pBLldJqRFZ7OZeJEfbCBbIhu";
+
+            Usuario usuario = new Usuario(dni, pass, true);
+            //registrando al usuario en la bd
+            registrarUsuario(usuario);
+            //Asignando la cuenta a la persona respectiva
+            persona.setUsuario(obtenerUnUsuarioPorUsername(usuario.getUsername()));
+
             //registrando a la persona a la bd
             registrarPersona(persona);
+
+            //Creando datos para la tabla cliente(los campos (direccion y distrito), telefono, email pueden ser nulos, para este generador pondremos el 33% d probabilidades que no
+            //Se llenen al registrar
+            Cliente cliente = new Cliente();
+            cliente.setDni(dni);
+
+            //Dirección al azar    - se puede repetir, ya que pueden vivir en una misma casa 2 clientes distintos 
+            int randomD = randomInt(0, 2);
+
+            if (randomD != 0) {
+                direccion = generarDireccion(listaDireccionesOrigen());
+
+                //Distrito al azar(actualmente hay 1831 distritos) 1-1831
+                int distritoId = randomInt(1, 1831);
+
+                cliente.setDireccion(direccion);
+                cliente.setDistrito(obtenerUnDistritoPorId(distritoId));
+
+            }
+
+            //Teléfono al azar - se puede repetir
+            randomD = randomInt(0, 2);
+            if (randomD != 0) {
+                telefono = generarTelefono(listaTelefonosOrigen());
+                cliente.setTelefono(telefono);
+            }
+
+            //Correo al azar
+            randomD = randomInt(0, 2);
+            if (randomD != 0) {
+                email = nombres.substring(0,4)+"_"+apellido_paterno.substring(0, 1)+apellido_materno+"_"+dni+generarDominioEmail();
+                cliente.setEmail(email);
+                System.out.println("email: "+email);
+            }
             
+            //registrando el registro cliente
+            registrarCliente(cliente);
 
         }
-        
-        
-        
-        //Impresión prueba     
-        int c = 1;
-        for(String s: personasNomCompleto ){
-            System.out.println(c+": "+s);
-            c++;
-        }
 
+        //Generando el archivo para borrado en la BD
+        String fecActual = getFechaFormateadaHoras(new java.util.Date());
+        generandoArchivoTexto("delete" + fecActual, "clientes", "dni", listaDnis);
+        generandoArchivoTexto("delete" + fecActual, "personas", "dni", listaDnis);
+        generandoArchivoTexto("delete" + fecActual, "usuarios", "username", listaDnis);
+
+    }
+
+    public void generandoArchivoTexto(String nombreArchivo, String nombreTabla, String nombreColumnaId, List<String> lista) {
+        //Variables de archivos
+        FileWriter archivo = null;
+        PrintWriter pw = null;
+
+        try {
+            archivo = new FileWriter("./recursos_generados/" + nombreArchivo + ".txt", true);
+            pw = new PrintWriter(archivo);
+
+            for (String s : lista) {
+                pw.println("delete from " + nombreTabla + " where " + nombreColumnaId + "= " + s + ";");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Nuevamente aprovechamos el finally para 
+                // asegurarnos que se cierra el fichero.
+                if (null != archivo) {
+                    archivo.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 
     public String generarPersonaHombre(List<NombreHombreOrigen> nombres) {
@@ -185,6 +251,26 @@ public class ClientesDao {
         apellidosGenerados[1] = apellidos.get(indice2).getApellido();
 
         return apellidosGenerados;
+    }
+
+    public String generarDireccion(List<DireccionOrigen> direcciones) {
+        String direccionGenerada = "";
+
+        int indexAleatorio = randomInt(0, direcciones.size() - 1);
+
+        direccionGenerada = direcciones.get(indexAleatorio).getDesc();
+
+        return direccionGenerada;
+    }
+
+    public String generarTelefono(List<TelefonoOrigen> telefonos) {
+        String telefonoGenerado = "";
+
+        int indexAleatorio = randomInt(0, telefonos.size() - 1);
+
+        telefonoGenerado = telefonos.get(indexAleatorio).getDesc();
+
+        return telefonoGenerado;
     }
 
     public boolean existeEnListaString(String cadena, List<String> lista) {
@@ -401,8 +487,8 @@ public class ClientesDao {
 
         return resultado;
     }
-    
-     public boolean registrarUsuario(Usuario unUsuario) {
+
+    public boolean registrarUsuario(Usuario unUsuario) {
         boolean resultado = false;
         Transaction tx = null;
 
@@ -423,8 +509,8 @@ public class ClientesDao {
 
         return resultado;
     }
-    
-     public Usuario obtenerUnUsuarioPorUsername(String username) {
+
+    public Usuario obtenerUnUsuarioPorUsername(String username) {
         Usuario unUsuario = null;
 
         try {
@@ -439,7 +525,6 @@ public class ClientesDao {
         return unUsuario;
     }
 
-
     public Persona obtenerUnaPersonaPorDni(String dni) {
         Persona unaPersona = null;
 
@@ -453,6 +538,21 @@ public class ClientesDao {
         }
 
         return unaPersona;
+    }
+
+    public Distrito obtenerUnDistritoPorId(int id) {
+        Distrito unDistrito = null;
+
+        try {
+
+            unDistrito = session.load(Distrito.class, id);
+
+        } catch (Exception e) {
+
+            System.out.println("Error en el método [obtenerUnDistritoPorId]: " + e);
+        }
+
+        return unDistrito;
     }
 
     public void eliminarDatosClientePersona(boolean b) {/* tener cuidado */ /* implementar otro eliminar para que solo elimine personas que son clientes */
@@ -516,9 +616,9 @@ public class ClientesDao {
     public String generarDominioEmail() {
         String dominio = "";
         Random random = new Random();
-        int azar = 1 + (int) (random.nextDouble() * (5 - 1));
+        int azar = randomInt(1, 5);
 
-        switch (azar) {
+        switch (azar) {//40% de posiblidades de que el dominio de los correos sea gmail,20% sea hotmail, 20% sea outlook y 20% sea yahoo
             case 1:
                 dominio = "@gmail.com";
                 break;
@@ -529,7 +629,7 @@ public class ClientesDao {
                 dominio = "@outlook.com";
                 break;
             case 4:
-                dominio = "@yahoo.es";
+                dominio = "@gmail.com";
                 break;
             default:
                 dominio = "@yahoo.com";
@@ -547,6 +647,27 @@ public class ClientesDao {
             t.printStackTrace();
         }
         return 0L;
+    }
+
+    public int randomInt(int min, int max) {
+        try {
+            Random random = new Random();
+            int result = min + (int) (random.nextDouble() * (max - min));
+            return result;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static String getFechaFormateadaHoras(java.util.Date fechaDate) {
+
+        Timestamp fecha = new Timestamp(fechaDate.getTime());
+
+        SimpleDateFormat formateador = new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss");
+
+        return (formateador.format(fecha.getTime()));
+
     }
 
     public void cerrarSession() {

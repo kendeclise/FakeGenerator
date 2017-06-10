@@ -193,9 +193,9 @@ public class ClientesDaoTest {
 
         System.out.println("testCargarClientesFicticios");
         dao.cargarClientesFicticios(10);
-        
+
         dao.cerrarSession();
-        assertEquals(1,1);
+        assertEquals(1, 1);
     }
 
 }
