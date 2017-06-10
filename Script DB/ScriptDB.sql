@@ -37,3 +37,41 @@ create table distritos
 	id_prov int not null references provincias
 )
 go
+
+
+create table apellidos
+(
+	id int identity(1,1) not null primary key,
+	apellido varchar(255) not null unique
+)
+go
+
+create table nombres_hombre
+(
+	id int identity(1,1) not null primary key,
+	nombre varchar(255) not null unique
+)
+go
+
+create table nombres_mujer
+(
+	id int identity(1,1) not null primary key,
+	nombre varchar(255) not null unique
+)
+go
+
+create table direcciones
+(
+	id int identity(1,1) not null primary key,
+	descr varchar(255) not null 
+)
+go
+
+create table telefonos
+(
+	id	int identity(1,1) not null primary key,
+	descr varchar(255) not null
+)
+go
+
+
