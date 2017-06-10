@@ -95,11 +95,11 @@ public class ClientesDao {
             }
 
             //Generando la entidad persona
-            Persona persona = new Persona();
-            persona.setDni(dni);
-            persona.setNombres(nombres);
-            persona.setApe_pat(apellido_paterno);
-            persona.setApe_mat(apellido_materno);
+            Cliente cliente = new Cliente();
+            cliente.setDni(dni);
+            cliente.setNombres(nombres);
+            cliente.setApe_pat(apellido_paterno);
+            cliente.setApe_mat(apellido_materno);
 
             //Generando su usuario, la contraseña es cliente (https://www.dailycred.com/article/bcrypt-calculator) encriptada en Bcrypt
             String pass = "$2a$04$Pe1dAbO/qdJwNN3SWaGjue1SSkOK5pBLldJqRFZ7OZeJEfbCBbIhu";
@@ -108,15 +108,13 @@ public class ClientesDao {
             //registrando al usuario en la bd
             registrarUsuario(usuario);
             //Asignando la cuenta a la persona respectiva
-            persona.setUsuario(obtenerUnUsuarioPorUsername(usuario.getUsername()));
+            cliente.setUsuario(obtenerUnUsuarioPorUsername(usuario.getUsername()));
 
-            //registrando a la persona a la bd
-            registrarPersona(persona);
+            
 
             //Creando datos para la tabla cliente(los campos (direccion y distrito), telefono, email pueden ser nulos, para este generador pondremos el 33% d probabilidades que no
             //Se llenen al registrar
-            Cliente cliente = new Cliente();
-            cliente.setDni(dni);
+          
 
             //Dirección al azar    - se puede repetir, ya que pueden vivir en una misma casa 2 clientes distintos 
             int randomD = randomInt(0, 2);
@@ -144,10 +142,11 @@ public class ClientesDao {
             if (randomD != 0) {
                 email = nombres.substring(0,4)+"_"+apellido_paterno.substring(0, 1)+apellido_materno+"_"+dni+generarDominioEmail();
                 cliente.setEmail(email);
-                System.out.println("email: "+email);
+                //System.out.println("email: "+email);
             }
             
             //registrando el registro cliente
+            //System.out.println(cliente);
             registrarCliente(cliente);
 
         }

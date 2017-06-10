@@ -192,7 +192,7 @@ public class ClientesDaoTest {
         ClientesDao dao = new ClientesDao(session);
 
         System.out.println("testCargarClientesFicticios");
-        dao.cargarClientesFicticios(10);
+        dao.cargarClientesFicticios(350);
 
         dao.cerrarSession();
         assertEquals(1, 1);

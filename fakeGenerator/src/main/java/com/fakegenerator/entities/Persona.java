@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "personas")
 @Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Persona {
 
     @Id

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "clientes")
-@PrimaryKeyJoinColumn(name="dni")
+//@PrimaryKeyJoinColumn(name="dni")
 public class Cliente extends Persona {
 
    
@@ -73,7 +73,7 @@ public class Cliente extends Persona {
 
     @Override
     public String toString() {
-        return "Cliente{" +"nombres="+nombres+" "+ape_pat+" "+ape_mat+ ", direccion=" + direccion + ", distrito=" + distrito + ", telefono=" + telefono + ", email=" + email + ", notas=" + notas + '}';
+        return "Cliente{" +"dni="+dni+" nombres="+nombres+" "+ape_pat+" "+ape_mat+ ", direccion=" + direccion + ", distrito=" + distrito + ", telefono=" + telefono + ", email=" + email + ", notas=" + notas + '}';
     }
 
     
