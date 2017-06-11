@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.persistence.Query;
@@ -36,12 +37,12 @@ import org.hibernate.Transaction;
 public class ClientesDao {
 
     private Session session;
-
+    
     public ClientesDao(Session session) {
         this.session = session;
     }
 
-    public void cargarClientesFicticios(int numClientes) {
+    public List<String> cargarClientesFicticios(int numClientes) {
         Random random = new Random();
 
         //Variables
@@ -156,7 +157,16 @@ public class ClientesDao {
         generandoArchivoTexto("delete" + fecActual, "clientes", "dni", listaDnis);
         generandoArchivoTexto("delete" + fecActual, "personas", "dni", listaDnis);
         generandoArchivoTexto("delete" + fecActual, "usuarios", "username", listaDnis);
+        
+        return listaDnis;
 
+    }
+    
+    public void cargarOrdenesVentasFicticios(List<String> listaDniClientes , Date fecInicioRango, Date fecFinRango){
+        
+        int numeroDiasRango = (int) getDateDiff(fecInicioRango, fecFinRango);
+        System.out.println(numeroDiasRango);
+        
     }
 
     public void generandoArchivoTexto(String nombreArchivo, String nombreTabla, String nombreColumnaId, List<String> lista) {
@@ -668,6 +678,22 @@ public class ClientesDao {
         return (formateador.format(fecha.getTime()));
 
     }
+    
+    public long getDateDiff(Date dateOne, Date dateTwo)
+{
+    long timeOne = dateOne.getTime();
+    long timeTwo = dateTwo.getTime();
+    long oneDay = 1000 * 60 * 60 * 24;
+    long delta = (timeTwo - timeOne) / oneDay;
+
+    if (delta > 0) {
+        return delta;
+    }
+    else {
+        delta *= -1;
+        return delta;
+     }
+}
 
     public void cerrarSession() {
         session.close();

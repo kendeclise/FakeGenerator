@@ -12,6 +12,7 @@ import com.fakegenerator.entities.NombreMujerOrigen;
 import com.fakegenerator.entities.TelefonoOrigen;
 import com.fakegenerator.util.HibernateUtil;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.junit.Test;
@@ -186,7 +187,7 @@ public class ClientesDaoTest {
         assertNotNull(dniGenerado);
     }
 
-    @Test
+    //@Test
     public void testCargarClientesFicticios() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         ClientesDao dao = new ClientesDao(session);
@@ -195,6 +196,21 @@ public class ClientesDaoTest {
         dao.cargarClientesFicticios(500);
 
         dao.cerrarSession();
+        assertEquals(1, 1);
+    }
+    
+    @Test
+    public void testCargarOrdenesVentasFicticios(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        ClientesDao dao = new ClientesDao(session);
+        
+        Date fecIni = new Date(2013,01,01);
+        Date fecFin = new Date(2016,01,01);
+             
+        System.out.println("testCargarOrdenesVentasFicticios");
+        
+        dao.cargarOrdenesVentasFicticios(new ArrayList<String>(), fecIni, fecFin);
+        
         assertEquals(1, 1);
     }
 
