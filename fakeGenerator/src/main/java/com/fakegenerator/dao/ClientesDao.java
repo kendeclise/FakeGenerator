@@ -140,7 +140,7 @@ public class ClientesDao {
             //Correo al azar
             randomD = randomInt(0, 2);
             if (randomD != 0) {
-                email = nombres.substring(0,4)+"_"+apellido_paterno.substring(0, 1)+apellido_materno+"_"+dni+generarDominioEmail();
+                email = nombres.substring(0,3)+"_"+apellido_paterno.substring(0, 1)+apellido_materno+"_"+dni+generarDominioEmail();
                 cliente.setEmail(email);
                 //System.out.println("email: "+email);
             }
