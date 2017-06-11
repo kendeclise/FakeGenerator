@@ -9,6 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Distrito.class)
 public abstract class Distrito_ {
 
+	public static volatile SetAttribute<Distrito, OrdenPago> ordenesPago;
 	public static volatile SingularAttribute<Distrito, Integer> id_distri;
 	public static volatile SingularAttribute<Distrito, Provincia> provincia;
 	public static volatile SetAttribute<Distrito, Cliente> clientes;

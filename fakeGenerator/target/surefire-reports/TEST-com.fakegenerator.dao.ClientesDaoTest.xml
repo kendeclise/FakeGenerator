@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.fakegenerator.dao.ClientesDaoTest" time="1.936" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.fakegenerator.dao.ClientesDaoTest" time="2.894" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_101\jre\bin"/>
@@ -16,7 +16,7 @@
     <property name="sun.os.patch.level" value=""/>
     <property name="test" value="com.fakegenerator.dao.ClientesDaoTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="C:\Users\jbust\Desktop\GeneradorDatosFalsos\FakeGenerator\fakeGenerator"/>
+    <property name="user.dir" value="C:\Users\jbust\Desktop\Hibernate-many-to-many-third-table-annotation\GeneradorDatosFalsos\FakeGenerator\fakeGenerator"/>
     <property name="java.runtime.version" value="1.8.0_101-b13"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_101\jre\lib\endorsed"/>
@@ -62,5 +62,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.fakegenerator.dao.ClientesDaoTest" name="testCargarOrdenesVentasFicticios" time="1.888"/>
+  <testcase classname="com.fakegenerator.dao.ClientesDaoTest" name="testCargarClientesFicticios" time="2.843"/>
 </testsuite>

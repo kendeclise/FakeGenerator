@@ -37,6 +37,8 @@ public class Persona {
     protected String nombres;
     protected String ape_pat;
     protected String ape_mat;
+    protected String telefono;
+    protected String email;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username")
@@ -92,9 +94,29 @@ public class Persona {
         this.usuario = usuario;
     }
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombres=" + nombres + ", ape_pat=" + ape_pat + ", ape_mat=" + ape_mat + ", usuario=" + usuario + '}';
+        return "Persona{" + "dni=" + dni + ", nombres=" + nombres + ", ape_pat=" + ape_pat + ", ape_mat=" + ape_mat + ", telefono=" + telefono + ", email=" + email + ", usuario=" + usuario + '}';
     }
+    
+    
+
+    
 
 }

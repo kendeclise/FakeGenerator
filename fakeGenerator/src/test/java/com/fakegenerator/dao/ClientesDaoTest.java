@@ -193,13 +193,13 @@ public class ClientesDaoTest {
         ClientesDao dao = new ClientesDao(session);
 
         System.out.println("testCargarClientesFicticios");
-        dao.cargarClientesFicticios(500);
+        dao.cargarClientesFicticios(5);
 
         dao.cerrarSession();
         assertEquals(1, 1);
     }
     
-    @Test
+    //@Test
     public void testCargarOrdenesVentasFicticios(){
         Session session = HibernateUtil.getSessionFactory().openSession();
         ClientesDao dao = new ClientesDao(session);
@@ -211,6 +211,7 @@ public class ClientesDaoTest {
         
         dao.cargarOrdenesVentasFicticios(new ArrayList<String>(), fecIni, fecFin);
         
+        dao.cerrarSession();
         assertEquals(1, 1);
     }
 

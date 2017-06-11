@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package com.fakegenerator.entities;
+
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 /**
  *
  * @author jbust
@@ -18,18 +22,17 @@ import javax.persistence.Table;
 //@PrimaryKeyJoinColumn(name="dni")
 public class Cliente extends Persona {
 
-   
     private String direccion;
     @ManyToOne
     @JoinColumn(name = "id_distri")
     private Distrito distrito;
-    private String telefono;
-    private String email;
     private String notas;
+
+    @OneToMany(mappedBy = "cliente")//hace referencia a la variable relacionada en la otra tabla
+    private Set<OrdenPago> ordenesPago;
 
     public Cliente() {
     }
- 
 
     public String getDireccion() {
         return direccion;
@@ -47,22 +50,6 @@ public class Cliente extends Persona {
         this.distrito = distrito;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getNotas() {
         return notas;
     }
@@ -71,15 +58,17 @@ public class Cliente extends Persona {
         this.notas = notas;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" +"dni="+dni+" nombres="+nombres+" "+ape_pat+" "+ape_mat+ ", direccion=" + direccion + ", distrito=" + distrito + ", telefono=" + telefono + ", email=" + email + ", notas=" + notas + '}';
+    public Set<OrdenPago> getOrdenesPago() {
+        return ordenesPago;
     }
 
-    
+    public void setOrdenesPago(Set<OrdenPago> ordenesPago) {
+        this.ordenesPago = ordenesPago;
+    }
 
+    @Override
+    public String toString() {
+        return "Cliente{" + "dni=" + dni + " nombres=" + nombres + " " + ape_pat + " " + ape_mat + ", direccion=" + direccion + ", distrito=" + distrito + ", notas=" + notas + '}';
+    }
 
-    
-    
-    
 }

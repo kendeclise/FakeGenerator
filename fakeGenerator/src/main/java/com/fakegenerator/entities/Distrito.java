@@ -38,6 +38,9 @@ public class Distrito {
     
     @OneToMany(mappedBy = "distrito")//hace referencia a la variable relacionada en la otra tabla
     private Set<Cliente> clientes;
+    
+    @OneToMany(mappedBy = "distrito")//hace referencia a la variable relacionada en la otra tabla
+    private Set<OrdenPago> ordenesPago;
 
     public Distrito() {
     }
@@ -67,6 +70,24 @@ public class Distrito {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Set<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(Set<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public Set<OrdenPago> getOrdenesPago() {
+        return ordenesPago;
+    }
+
+    public void setOrdenesPago(Set<OrdenPago> ordenesPago) {
+        this.ordenesPago = ordenesPago;
+    }
+    
+    
 
     @Override
     public String toString() {

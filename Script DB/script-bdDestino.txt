@@ -205,7 +205,7 @@ create table estado_orden_pago
 create table ordenes_pago
 (
 	id_orden		varchar(9)		primary key,
-	dni_cliente		varchar(8)		not null,
+	dni_cliente		varchar(8)		null,
 	nombre_cliente	varchar(300)	not null,
 	direcc_envio	varchar(300)	not null,
 	distr_envio		int				not null,
@@ -357,10 +357,10 @@ insert into roles(rol) values ('empleado');
 insert into roles(rol) values ('cliente');
 
 -- Creando 1 registro de un sysadmin -> Usuario > Roles_usuario > Personas > Empleados
-insert into usuarios(username, password,enabled) values('sysadmin','sysadmin',true);
-insert into roles_usuario(username, id_rol) values ('sysadmin',1);
-insert into personas(dni,nombres,ape_pat,ape_mat,email,telefono,username) values ('46161049','Jorge Luis','Bustamante','Jara','jbustamantej@gmail.com','990536057','sysadmin');
-insert  into empleados(dni) values ('46161049');
+-- insert into usuarios(username, password,enabled) values('sysadmin','sysadmin',true);
+-- insert into roles_usuario(username, id_rol) values ('sysadmin',1);
+-- insert into personas(dni,nombres,ape_pat,ape_mat,email,telefono,username) values ('46161049','Jorge Luis','Bustamante','Jara','jbustamantej@gmail.com','990536057','sysadmin');
+-- insert  into empleados(dni) values ('46161049');
 
 
 -- Tabla Productos

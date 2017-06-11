@@ -68,6 +68,15 @@ Contributor(s):
         <mapping class="com.fakegenerator.entities.Provincia" />
         <mapping class="com.fakegenerator.entities.Usuario" />
         <mapping class="com.fakegenerator.entities.Rol" />
+        <!--new really point stablished -->
+        
+        <mapping class="com.fakegenerator.entities.Empleado" />
+        <mapping class="com.fakegenerator.entities.EstadoOrdenPago" />
+        <mapping class="com.fakegenerator.entities.OrdenPago" />
+        <mapping class="com.fakegenerator.entities.Categoria" />
+        <mapping class="com.fakegenerator.entities.Marca" />
+        <mapping class="com.fakegenerator.entities.Producto" />  
+        <mapping class="com.fakegenerator.entities.DetalleOrden" />       
        
         
     </session-factory>
