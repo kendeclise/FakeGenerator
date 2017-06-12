@@ -22,19 +22,30 @@ public class OrdenDeVentaDaoTest {
     public OrdenDeVentaDaoTest() {
     }
 
-    @Test
-    public void testCargarOrdenesVentasFicticios() {
+//    @Test
+    public void testCargarOrdenesPagoFake() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         OrdenDeVentaDao dao = new OrdenDeVentaDao(session);
         Date fecInicial = new Date(2015-1900,01,01);
-        Date fecFin = new Date(2017-1900,01,01);
+        Date fecFin = new Date(2017-1900,01,01);//el mes comienza en 0
         
-        dao.cargarOrdenesVentasFicticios(dao.obtenerListaDnisClientes(), fecInicial, fecFin, 80);
+        dao.cargarOrdenesPagoFake(dao.obtenerListaDnisClientes(), fecInicial, fecFin, 480);
         
         System.out.println("testCargarOrdenesVentasFicticios");
         System.out.println("size: "+dao.obtenerListaDnisClientes().size());
         System.out.println(dao.obtenerListaDnisClientes());
         
+        dao.cerrarSession();
+        assertEquals(1, 1);
+    }
+    
+    @Test
+    public void testCargarDetalleOrdenesFake(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        OrdenDeVentaDao dao = new OrdenDeVentaDao(session);
+        
+        System.out.println("testCargarOrdenesPagoFake");
+        dao.cargarDetalleOrdenesFake(dao.listOrdenesPago(), 5 , 20);
         dao.cerrarSession();
         assertEquals(1, 1);
     }

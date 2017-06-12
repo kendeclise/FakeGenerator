@@ -6,6 +6,7 @@
 package com.fakegenerator.dao;
 
 import com.fakegenerator.entities.Cliente;
+import com.fakegenerator.entities.DetalleOrden;
 import com.fakegenerator.entities.DireccionOrigen;
 import com.fakegenerator.entities.Distrito;
 import com.fakegenerator.entities.Empleado;
@@ -40,10 +41,10 @@ public class OrdenDeVentaDao {
         this.session = session;
     }
 
-    public List<String> cargarOrdenesVentasFicticios(List<String> listaDniClientes, Date fecInicioRango, Date fecFinRango, int numeroAdicionalDeOrdenes) {
+    public List<String> cargarOrdenesPagoFake(List<String> listaDniClientes, Date fecInicioRango, Date fecFinRango, int numeroAdicionalDeOrdenes) {
 
         List<String> listaIdsOrdenesGeneradas = new ArrayList<>();
-        
+
         int numeroDiasRango = (int) getDateDiff(fecInicioRango, fecFinRango);
         List<String> listaDniEmpleados = obtenerListaDnisEmpleadosRolEmpleado();
         int recorrido = listaDniClientes.size() + numeroAdicionalDeOrdenes;
@@ -239,15 +240,63 @@ public class OrdenDeVentaDao {
         //Ordeno por fecha y asigno su verdad id (actualizo)
         for (String id : obtenerListaOrdenesFakesOrderByFechaAsc()) {
             String nuevoId = obtieneCodigoOrdenCorrelativo();
-            
+
             //Actualizo su id :
-            
             modificaIdOrdenPago(id, nuevoId);
             listaIdsOrdenesGeneradas.add(nuevoId);
-            
+
         }
-        
+
         return listaIdsOrdenesGeneradas;
+
+    }
+
+    public void cargarDetalleOrdenesFake(List<String> listaIdsOrdenesPago, int productosPorOrdenMaximo, int maxCantidadPorProducto) {
+
+        //Variables locales        
+        int numProductosAzar, productoAzar, cantidad;
+        OrdenPago ordenPago;
+        Producto unProducto;
+        float descuento, precio_compra, precio_venta;
+
+        for (String id_orden : listaIdsOrdenesPago) {
+            numProductosAzar = randomInt(1, productosPorOrdenMaximo);
+            ordenPago = obtieneOrdenPagoPorId(id_orden);
+
+            List<Producto> productos = obtenerListaProductos();
+            
+            for (int i = 0; i < numProductosAzar; i++) {
+                
+                DetalleOrden detalle_orden = new DetalleOrden();
+                ordenPago = obtieneOrdenPagoPorId(id_orden);
+                detalle_orden.setOrdenPago(ordenPago);
+
+                //genera un producto al azar
+                productoAzar = randomInt(0, productos.size() - 1);
+                unProducto = productos.get(productoAzar);
+                
+                detalle_orden.setProducto(unProducto);
+                
+                descuento = ordenPago.getDescuento();
+                
+                precio_compra = unProducto.getPrecio_compra();
+                precio_venta = unProducto.getPrecio_venta() - unProducto.getPrecio_venta()*descuento;
+                
+                detalle_orden.setPrecio_compra(precio_compra);
+                detalle_orden.setPrecio_venta(precio_venta);
+                
+                cantidad = randomInt(1, maxCantidadPorProducto);
+                
+                detalle_orden.setCantidad(cantidad);
+                
+                
+                //registra El Producto
+                registrarDetalleOrden(detalle_orden);
+                
+                productos.remove(productoAzar);
+
+            }
+        }
 
     }
 
@@ -302,6 +351,34 @@ public class OrdenDeVentaDao {
 
         } catch (Exception e) {
             System.out.println("Error obtenerListaOrdenesFakesOrderByFechaAsc " + e);
+        }
+
+        return ordenes;
+    }
+
+    public List<String> listOrdenesPago() {
+        List<String> ordenes = null;
+
+        String sql = "select * from ordenes_pago";
+        try {
+            Connection c = new bd().obtieneConexionMysql();
+
+            PreparedStatement pst = c.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            ordenes = new ArrayList<>();
+
+            while (rs.next()) {
+
+                ordenes.add(rs.getString(1));
+            }
+
+            rs.close();
+            pst.close();
+            c.close();
+
+        } catch (Exception e) {
+            System.out.println("Error listOrdenesPago " + e);
         }
 
         return ordenes;
@@ -390,6 +467,14 @@ public class OrdenDeVentaDao {
 
         return op;
     }
+    
+    public Producto obtieneProductoPorId(String id){
+        Producto p = null;
+        
+        p = session.load(Producto.class,id);
+        
+        return p;
+    }
 
     public String obtieneCodigoOrdenCorrelativo() {
 
@@ -438,27 +523,47 @@ public class OrdenDeVentaDao {
 
         return resultado;
     }
+    
+    public boolean registrarDetalleOrden(DetalleOrden unaDetalleOrden) {
+        boolean resultado = false;
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            session.save(unaDetalleOrden);
+
+            tx.commit();
+            resultado = true;
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            System.out.println("Error en el método [registrarDetalleOrden]: " + e);
+        }
+
+        return resultado;
+    }
 
     public boolean modificaIdOrdenPago(String idActual, String idNuevo) {
         boolean resultado = false;
-        
-        
+
         String sql = "update ordenes_pago set id_orden=? where id_orden=?";
         try {
             Connection c = new bd().obtieneConexionMysql();
 
             PreparedStatement pst = c.prepareStatement(sql);
-            pst.setString(1,idNuevo);
-            pst.setString(2,idActual);
+            pst.setString(1, idNuevo);
+            pst.setString(2, idActual);
             pst.executeUpdate();
-            
+
             pst.close();
             c.close();
 
         } catch (Exception e) {
             System.out.println("Error modificaIdOrdenPago " + e);
         }
-        
 
         return resultado;
     }
