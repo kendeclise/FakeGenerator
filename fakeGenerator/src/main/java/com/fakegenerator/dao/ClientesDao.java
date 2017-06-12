@@ -27,6 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -162,13 +165,6 @@ public class ClientesDao {
 
     }
     
-    public void cargarOrdenesVentasFicticios(List<String> listaDniClientes , Date fecInicioRango, Date fecFinRango){
-        
-        int numeroDiasRango = (int) getDateDiff(fecInicioRango, fecFinRango);
-        System.out.println(numeroDiasRango);
-        
-    }
-
     public void generandoArchivoTexto(String nombreArchivo, String nombreTabla, String nombreColumnaId, List<String> lista) {
         //Variables de archivos
         FileWriter archivo = null;
@@ -602,6 +598,19 @@ public class ClientesDao {
         }
 
     }
+    
+    public List<Cliente> listaClientes(){
+        List<Cliente> clientes = null;
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class);
+        Root<Cliente> root = criteria.from(Cliente.class);
+        //Añadiendo lo que queremos que contenga nuestro query de categoría
+        criteria.select(root);
+        clientes = session.createQuery(criteria).getResultList();
+
+        return clientes;
+    }
 
     public String generarDniAleatorio(List<String> listaDnis) {
 
@@ -679,8 +688,7 @@ public class ClientesDao {
 
     }
     
-    public long getDateDiff(Date dateOne, Date dateTwo)
-{
+    public long getDateDiff(Date dateOne, Date dateTwo){
     long timeOne = dateOne.getTime();
     long timeTwo = dateTwo.getTime();
     long oneDay = 1000 * 60 * 60 * 24;

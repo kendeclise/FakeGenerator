@@ -332,14 +332,17 @@ insert into categorias (nom_cate) values ('Monitores');
 insert into categorias (nom_cate) values ('Multigrabadores');
 insert into categorias (nom_cate) values ('Procesadores');
 insert into categorias (nom_cate) values ('Tarjeta De Video');
+insert into categorias (nom_cate) values ('Discos Sólidos');
 
 
 -- Tabla Marcas
-insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Asus','	Marca fabricante de computadoras, laptops, y accesorios para laptops.','Marcas/Marca_1.jpg');
+insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Asus','Marca fabricante de computadoras, laptops, y accesorios para laptops.','Marcas/Marca_1.jpg');
 insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Intel','Marca fabricante de procesadores para pcs.','Marcas/Marca_2.jpg');
 insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Cooler Master','Marca fabricante de Cases,fuentes de poder y accesorios derivados.','Marcas/Marca_3.jpg');
 insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Corsair','Marca fabricante de Laptops, dispositivos para pcs y fuentes de poder.','Marcas/Marca_4.jpg');
 insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Razer','Marca fabricante de periféricos y laptop gamers.','Marcas/Marca_5.jpg');
+insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Kingston', 'Marca fabricante de memorias ram y usbs', 'Marcas/Marca_6.jpg');
+insert into marcas (nom_marca,descr_marca,ubicacion_dir) values ('Adata', 'Marca fabricante de discos sólidos,duros y usbs', 'Marcas/Marca_7.jpg');
 
 
 -- Tabla tipo tarjetas 
@@ -361,10 +364,60 @@ insert into roles(rol) values ('cliente');
 -- insert into roles_usuario(username, id_rol) values ('sysadmin',1);
 -- insert into personas(dni,nombres,ape_pat,ape_mat,email,telefono,username) values ('46161049','Jorge Luis','Bustamante','Jara','jbustamantej@gmail.com','990536057','sysadmin');
 -- insert  into empleados(dni) values ('46161049');
+INSERT INTO usuarios (`username`, `password`, `enabled`) VALUES ('jorge', 'jorge', b'1');
+INSERT INTO usuarios (`username`, `password`, `enabled`) VALUES ('jeff', 'jeff', b'1');
+INSERT INTO usuarios (`username`, `password`, `enabled`) VALUES ('diego', 'diego', b'1');
+INSERT INTO usuarios (`username`, `password`, `enabled`) VALUES ('carlos', 'carlos', b'1');
 
+INSERT INTO personas (`dni`, `nombres`, `ape_pat`, `ape_mat`, `telefono`, `email`, `username`) VALUES ('21458918', 'Jorge Luis', 'Bustamante', 'Jara', '990536057', 'jbustamantej@gmail.com', 'jorge');
+INSERT INTO personas (`dni`, `nombres`, `ape_pat`, `ape_mat`, `telefono`, `email`, `username`) VALUES ('22589611', 'Óscar Dieg', 'Angulo', 'Lopez', '4421210', 'd1eg0@hotmail.com', 'diego');
+INSERT INTO personas (`dni`, `nombres`, `ape_pat`, `ape_mat`, `telefono`, `email`, `username`) VALUES ('25147833', 'Carlos', 'Pure', 'Serrano', '986514233', 'carlitos.wey@yahoo.com', 'carlos');
+INSERT INTO personas (`dni`, `nombres`, `ape_pat`, `ape_mat`, `telefono`, `email`, `username`) VALUES ('21549988', 'Jefferson Ernesto', 'Ramirez', 'Telles', '01-5739861', 'jeff.ti@gmail.com', 'jeff');
+
+INSERT INTO empleados (`dni`) VALUES ('25147833');
+INSERT INTO empleados (`dni`) VALUES ('21549988');
+INSERT INTO empleados (`dni`) VALUES ('21458918');
+INSERT INTO empleados (`dni`) VALUES ('22589611');
+
+INSERT INTO roles_usuario (`username`, `id_rol`) VALUES ('jorge', '1');
+INSERT INTO roles_usuario (`username`, `id_rol`) VALUES ('jeff', '2');
+INSERT INTO roles_usuario (`username`, `id_rol`) VALUES ('diego', '3');
+INSERT INTO roles_usuario (`username`, `id_rol`) VALUES ('carlos', '3');
 
 -- Tabla Productos
-insert into productos(id_producto,nombre,id_categoria,id_marca,precio_compra,precio_venta,fec_agregado) values (id_producto(),'Memoria ram 4gb',8,4,85.0,120.0,curdate());
+-- insert into productos(id_producto,nombre,id_categoria,id_marca,precio_compra,precio_venta,fec_agregado) values (id_producto(),'Memoria ram 4gb',8,4,85.0,120.0,curdate());
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00001', 'Memoria ram 4GB', 8, 4, 85, 120, 5, '2014-06-18', b'1');	
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES	
+	('PID.00002', 'Memoria ram 4GB', 8, 7, 70, 105, 15, '2014-01-07', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00003', 'Memoria ram 8GB', 8, 4, 145, 190, 10, '2014-04-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00004', 'Memoria ram 16GB', 8, 6, 199, 235, 15, '2014-04-11', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00005', 'Disco Duro 1TB', 3, 6, 200, 245, 15, '2014-06-18', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00006', 'Disco Duro 1TB', 3, 7, 215, 260, 30, '2014-06-18', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00007', 'Disco Duro 2TB', 3, 6, 295, 360, 20, '2014-06-18', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00008', 'Disco SSD 128GB', 13, 7, 100, 135, 50, '2014-08-15', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00009', 'Disco SSD 256GB', 13, 6, 170, 210, 20, '2014-08-15', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00010', 'Disco SSD 512GB', 13, 7, 380, 450, 10, '2014-08-15', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00011', 'Intel Core i3 3330', 11, 2, 280, 350, 10, '2014-10-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00012', 'Intel Core i3 6330', 11, 2, 330, 395, 15, '2014-10-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00013', 'Intel Core i5 4600k', 11, 2, 620, 700, 10, '2013-10-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00014', 'Intel Core i5 6600k', 11, 2, 660, 750, 5, '2014-10-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00015', 'Intel Core i7 3970k', 11, 2, 1050, 1200, 7, '2013-10-10', b'1');
+INSERT INTO productos (`id_producto`, `nombre`, `id_categoria`, `id_marca`, `precio_compra`, `precio_venta`, `stock`, `fec_agregado`, `publicado`) VALUES
+	('PID.00016', 'Intel Core i7 6700', 11, 2, 1250, 1400, 10, '2013-10-10', b'1');
 
 
 

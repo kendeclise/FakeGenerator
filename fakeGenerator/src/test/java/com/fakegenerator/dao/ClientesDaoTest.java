@@ -6,6 +6,7 @@
 package com.fakegenerator.dao;
 
 import com.fakegenerator.entities.ApellidoOrigen;
+import com.fakegenerator.entities.Cliente;
 import com.fakegenerator.entities.DireccionOrigen;
 import com.fakegenerator.entities.NombreHombreOrigen;
 import com.fakegenerator.entities.NombreMujerOrigen;
@@ -193,26 +194,25 @@ public class ClientesDaoTest {
         ClientesDao dao = new ClientesDao(session);
 
         System.out.println("testCargarClientesFicticios");
-        dao.cargarClientesFicticios(5);
+        dao.cargarClientesFicticios(20);
 
         dao.cerrarSession();
         assertEquals(1, 1);
     }
     
-    //@Test
-    public void testCargarOrdenesVentasFicticios(){
+    @Test
+    public void testListaClientes(){
         Session session = HibernateUtil.getSessionFactory().openSession();
         ClientesDao dao = new ClientesDao(session);
-        
-        Date fecIni = new Date(2013,01,01);
-        Date fecFin = new Date(2016,01,01);
-             
-        System.out.println("testCargarOrdenesVentasFicticios");
-        
-        dao.cargarOrdenesVentasFicticios(new ArrayList<String>(), fecIni, fecFin);
-        
+
+        System.out.println("testListaClientes");
+        List<Cliente> clientes = dao.listaClientes();
+        System.out.println("Size: "+clientes.size());
+        System.out.println(clientes.get(0).getApe_pat());
+        System.out.println(clientes);
+
         dao.cerrarSession();
-        assertEquals(1, 1);
+        assertNotNull(clientes);
     }
 
 }
