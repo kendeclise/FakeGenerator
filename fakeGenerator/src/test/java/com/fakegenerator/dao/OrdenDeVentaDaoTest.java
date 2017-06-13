@@ -47,6 +47,7 @@ public class OrdenDeVentaDaoTest {
         System.out.println("testCargarOrdenesPagoFake");
         dao.cargarDetalleOrdenesFake(dao.listOrdenesPago(), 5 , 20);
         dao.cerrarSession();
+        
         assertEquals(1, 1);
     }
 

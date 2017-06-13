@@ -7,7 +7,6 @@ package com.fakegenerator.dao;
 
 import com.fakegenerator.entities.Cliente;
 import com.fakegenerator.entities.DetalleOrden;
-import com.fakegenerator.entities.DireccionOrigen;
 import com.fakegenerator.entities.Distrito;
 import com.fakegenerator.entities.Empleado;
 import com.fakegenerator.entities.EstadoOrdenPago;
@@ -244,16 +243,21 @@ public class OrdenDeVentaDao {
             //Actualizo su id :
             modificaIdOrdenPago(id, nuevoId);
             listaIdsOrdenesGeneradas.add(nuevoId);
+            
 
         }
+        
+        
 
         return listaIdsOrdenesGeneradas;
 
     }
 
-    public void cargarDetalleOrdenesFake(List<String> listaIdsOrdenesPago, int productosPorOrdenMaximo, int maxCantidadPorProducto) {
+    
+    public List<DetalleOrden> cargarDetalleOrdenesFake(List<String> listaIdsOrdenesPago, int productosPorOrdenMaximo, int maxCantidadPorProducto) {
 
         //Variables locales        
+        List<DetalleOrden> detalleOrdenesGenerados = new ArrayList<>();
         int numProductosAzar, productoAzar, cantidad;
         OrdenPago ordenPago;
         Producto unProducto;
@@ -292,14 +296,15 @@ public class OrdenDeVentaDao {
                 
                 //registra El Producto
                 registrarDetalleOrden(detalle_orden);
-                
+                detalleOrdenesGenerados.add(detalle_orden);
                 productos.remove(productoAzar);
 
             }
         }
-
+        
+        return detalleOrdenesGenerados;
     }
-
+    
     public List<String> obtenerListaDnisEmpleadosRolEmpleado() {
         List<String> listaDnis = null;
 

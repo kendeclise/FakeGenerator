@@ -5,15 +5,7 @@
  */
 package com.fakegenerator;
 
-import com.fakegenerator.entities.DetalleOrden;
-import com.fakegenerator.entities.Distrito;
-import com.fakegenerator.entities.EstadoOrdenPago;
-import com.fakegenerator.entities.OrdenPago;
-import com.fakegenerator.entities.Producto;
-import com.fakegenerator.util.HibernateUtil;
-import java.util.Date;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.fakegenerator.negocio.OrdenesVentasNegocio;
 
 /**
  *
@@ -22,41 +14,32 @@ import org.hibernate.Transaction;
 public class mainClass {
 
     public static void main(String[] args) {
-        //Clase principal
-        Session session = HibernateUtil.getSessionFactory().openSession();
 
-//        Transaction tx = session.beginTransaction();
-//
-//        Producto unProducto = session.load(Producto.class, "PID.00001");
-//        System.out.println(""+unProducto);
-//
-//        OrdenPago op = new OrdenPago();
-//        op.setId_orden("PID.00212");
-//        op.setNombre_cliente("Evangelina Chamorro");
-//        op.setDirecc_envio("Jr. Calamar 312");
-//        
-//        Distrito d = session.load(Distrito.class, 123);
-//        
-//        op.setDistrito(d);
-//        op.setFecha_creada(new Date());
-//        op.setNum_tarjeta("21374412312");
-//        
-//        EstadoOrdenPago eo = session.load(EstadoOrdenPago.class,1);
-//        
-//        op.setEstadoOrdenPago(eo);
-//        session.save(op);
-//        
-//        DetalleOrden dto = new DetalleOrden();
-//        dto.setId_producto(unProducto.getId_producto());
-//        dto.setId_orden_pago(op.getId_orden());
-////        dto.setProducto(unProducto);
-////        dto.setOrdenPago(op);
-//        dto.setPrecio_compra(10.0f);
-//        dto.setPrecio_venta(30.0f);
-//        dto.setCantidad(10);
-//        
-//        session.save(dto);
-//        tx.commit();
-
+        
+        /*
+            GENERADOR DE DATOS FALSOS, PARA EL PROYECTO STORE-WEB-SITE
+            
+            Url-Repositorio: https://github.com/kendeclise/FakeGenerator
+            Url-Repositorio-Store-Web-Site: https://github.com/kendeclise/Store-website-java
+        
+            generarDatosFalsos(int numeroClientesPorGenerar, String fechaRangoInicio, String fechaRangoFin, int numOrdenesAdicionales, int productosPorCompraMaximo,
+                                int maxCantidadCompradaEnCadaProducto)
+            
+            Datos de los parámetros de ingreso
+        
+            numeroClientesPorGenerar: Es el número de usuarios que deseamos generar aleatoriamente en nuestra BD.
+            fechaRangoInicio: Es el rango inicial de fecha que deseamos usar para generar las ventas(OrdenesPago) que serán generados aleatoriamente en nuestra BD.
+            fechaRangoFin: Es el rango final de fecha que deseamos usar para generar las ventas(OrdenesPago) que serán generados aleatoriamente en nuestra BD.
+            numOrdenesAdicionales: Son las ordenes adicionales que se crearán aleatoriamente en la BD muy aparte a las que se crean(Por defecto siempre se crean el mismo
+                                   número de los clientes ingresados(1 orden por cada cliente), en el caso de las ordenes adicionales salen aleatoriamente para cualquier 
+                                   cliente de nuestra tabla Clientes.
+            productosPorCompraMaximo: Es el número máximo de productos que se generarán en cada compra(OrdenPago) ya que se generaran aleatoriamente entre 1 y el 
+                                      número de productosPorCompraMaximo.
+            maxCantidadCompradaEnCadaProducto: Es el número máximo de cantidad adquirida de cada producto en una compra que se generará aleatoriamente que será entre 1 y el
+                                               número de maxCantidadCompradaEnCadaProducto.
+        */
+        OrdenesVentasNegocio ovn = new OrdenesVentasNegocio();
+        ovn.generarDatosFalsos(350, "01-01-2015", "01-01-2017", 250, 10, 20);
+        //ovn.generarDatosFalsos(10, "01-01-2015", "01-01-2017", 0, 2, 2);
     }
 }

@@ -15,8 +15,6 @@ import com.fakegenerator.entities.Persona;
 import com.fakegenerator.entities.TelefonoOrigen;
 import com.fakegenerator.entities.Usuario;
 import com.fakegenerator.util.conexionSQL2014;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -155,43 +153,12 @@ public class ClientesDao {
 
         }
 
-        //Generando el archivo para borrado en la BD
-        String fecActual = getFechaFormateadaHoras(new java.util.Date());
-        generandoArchivoTexto("delete" + fecActual, "clientes", "dni", listaDnis);
-        generandoArchivoTexto("delete" + fecActual, "personas", "dni", listaDnis);
-        generandoArchivoTexto("delete" + fecActual, "usuarios", "username", listaDnis);
         
         return listaDnis;
 
     }
     
-    public void generandoArchivoTexto(String nombreArchivo, String nombreTabla, String nombreColumnaId, List<String> lista) {
-        //Variables de archivos
-        FileWriter archivo = null;
-        PrintWriter pw = null;
 
-        try {
-            archivo = new FileWriter("./recursos_generados/" + nombreArchivo + ".txt", true);
-            pw = new PrintWriter(archivo);
-
-            for (String s : lista) {
-                pw.println("delete from " + nombreTabla + " where " + nombreColumnaId + "= " + s + ";");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Nuevamente aprovechamos el finally para 
-                // asegurarnos que se cierra el fichero.
-                if (null != archivo) {
-                    archivo.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
 
     public String generarPersonaHombre(List<NombreHombreOrigen> nombres) {
         String personaGenerada = "";
