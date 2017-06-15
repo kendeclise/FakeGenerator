@@ -39,7 +39,7 @@ public class mainClass {
                                                número de maxCantidadCompradaEnCadaProducto.
         */
         OrdenesVentasNegocio ovn = new OrdenesVentasNegocio();
-        ovn.generarDatosFalsos(350, "01-01-2015", "01-01-2017", 250, 10, 20);
+        ovn.generarDatosFalsos(40, "01-01-2016", "01-01-2017", 200, 10, 20);
         //ovn.generarDatosFalsos(10, "01-01-2015", "01-01-2017", 0, 2, 2);
     }
 }

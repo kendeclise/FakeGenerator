@@ -276,7 +276,7 @@ public class OrdenDeVentaDao {
                 detalle_orden.setOrdenPago(ordenPago);
 
                 //genera un producto al azar
-                productoAzar = randomInt(0, productos.size() - 1);
+                productoAzar = randomInt(0, productos.size());
                 unProducto = productos.get(productoAzar);
                 
                 detalle_orden.setProducto(unProducto);

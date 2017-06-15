@@ -112,6 +112,7 @@ public class OrdenesVentasNegocio {
             System.out.println("Número de personas generadas: "+listaDnisClientesGenerados.size());
             System.out.println("Número de clientes generados: "+listaDnisClientesGenerados.size());
             System.out.println("Número de usuarios generados: "+listaDnisClientesGenerados.size());
+            System.out.println("Número de relaciones entre usuarios y roles generados: "+listaDnisClientesGenerados.size());
             System.out.println("Número de ordenes de pago generadas: "+listaIdOrdenesPagoGeneradas.size());
             System.out.println("Número de detalle de ordenes generados: "+listaDetalleOrdenesGenerados.size());
             
@@ -123,7 +124,8 @@ public class OrdenesVentasNegocio {
             generandoArchivoTexto2("delete" + fecActual, "ordenes_pago", "id_orden", listaIdOrdenesPagoGeneradas);
             generandoArchivoTexto("delete" + fecActual, "clientes", "dni", listaDnisClientesGenerados);
             generandoArchivoTexto("delete" + fecActual, "personas", "dni", listaDnisClientesGenerados);
-            generandoArchivoTexto("delete" + fecActual, "usuarios", "username", listaDnisClientesGenerados);
+            generandoArchivoTexto("delete" + fecActual, "roles_usuario", "username", listaDnisClientesGenerados);
+            generandoArchivoTexto("delete" + fecActual, "usuarios", "username", listaDnisClientesGenerados);            
             System.out.println("Archivo generado: '~/recursos_generados/delete" + fecActual+".sql'");
             
             System.out.println("\n*********************************************************************");

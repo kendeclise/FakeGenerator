@@ -23,15 +23,16 @@ public class bd {
         String usu = "root";
         String clave = "";
         String url = "jdbc:mysql://localhost:3306/testdb";
-        
+//        String url = "jdbc:mysql://localhost:3306/store";
+
         try {
             //Registrar el Driver de Conexion
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            c = DriverManager.getConnection(url,usu,clave);
+            c = DriverManager.getConnection(url, usu, clave);
         } catch (SQLException ex) {
-            System.out.println("Error en conexion mysql "+ ex);
+            System.out.println("Error en conexion mysql " + ex);
         }
-                
+
         return c;
 
     }

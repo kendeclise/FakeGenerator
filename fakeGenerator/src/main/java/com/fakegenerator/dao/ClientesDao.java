@@ -12,6 +12,7 @@ import com.fakegenerator.entities.Distrito;
 import com.fakegenerator.entities.NombreHombreOrigen;
 import com.fakegenerator.entities.NombreMujerOrigen;
 import com.fakegenerator.entities.Persona;
+import com.fakegenerator.entities.Rol;
 import com.fakegenerator.entities.TelefonoOrigen;
 import com.fakegenerator.entities.Usuario;
 import com.fakegenerator.util.conexionSQL2014;
@@ -107,6 +108,10 @@ public class ClientesDao {
             String pass = "$2a$04$Pe1dAbO/qdJwNN3SWaGjue1SSkOK5pBLldJqRFZ7OZeJEfbCBbIhu";
 
             Usuario usuario = new Usuario(dni, pass, true);
+            Rol unRol = obtenerUnRolByid(4);
+            List<Rol> roles = new ArrayList<>();
+            roles.add(unRol);
+            usuario.setRoles(roles);
             //registrando al usuario en la bd
             registrarUsuario(usuario);
             //Asignando la cuenta a la persona respectiva
@@ -495,6 +500,21 @@ public class ClientesDao {
         }
 
         return unUsuario;
+    }
+    
+    public Rol obtenerUnRolByid(int id) {
+        Rol unRol = null;
+
+        try {
+
+            unRol = session.load(Rol.class, id);
+
+        } catch (Exception e) {
+
+            System.out.println("Error en el método [obtenerUnRolByid]: " + e);
+        }
+
+        return unRol;
     }
 
     public Persona obtenerUnaPersonaPorDni(String dni) {

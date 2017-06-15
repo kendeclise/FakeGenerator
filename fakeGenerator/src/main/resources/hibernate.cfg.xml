@@ -45,6 +45,7 @@ Contributor(s):
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <!-- Ubicación de la B.D. -->
+        <!--<property name="connection.url">jdbc:mysql://localhost:3306/store</property>-->
         <property name="connection.url">jdbc:mysql://localhost:3306/testdb</property>
         <!-- Usuario de la B.D. -->
         <property name="connection.username">root</property>
