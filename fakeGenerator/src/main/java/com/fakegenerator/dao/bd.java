@@ -22,8 +22,8 @@ public class bd {
         Connection c = null;
         String usu = "root";
         String clave = "";
-        String url = "jdbc:mysql://localhost:3306/testdb";
-//        String url = "jdbc:mysql://localhost:3306/store";
+//        String url = "jdbc:mysql://localhost:3306/testdb";
+        String url = "jdbc:mysql://localhost:3306/store";
 
         try {
             //Registrar el Driver de Conexion
